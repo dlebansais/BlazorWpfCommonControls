@@ -1,12 +1,11 @@
 namespace BlazorWpfCommonControls.Test;
 
 using System;
-using System.Diagnostics;
 using System.Threading;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
+using Contracts;
 
 public static class TestTools
 {
@@ -25,13 +24,13 @@ public static class TestTools
 
     public static Popup LoadControl(Control control)
     {
-        Debug.Assert(control is not null);
+        Contract.RequireNotNull(control, out Control Control);
 
         Popup NewPopup = new();
-        NewPopup.Child = control;
+        NewPopup.Child = Control;
         NewPopup.IsOpen = true;
 
-        while (!control.IsLoaded)
+        while (!Control.IsLoaded)
             Thread.Sleep(1);
 
         return NewPopup;
@@ -39,9 +38,9 @@ public static class TestTools
 
     public static void UnloadControl(Popup popup)
     {
-        Debug.Assert(popup is not null);
+        Contract.RequireNotNull(popup, out Popup Popup);
 
-        popup.IsOpen = false;
+        Popup.IsOpen = false;
         Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.ContextIdle);
     }
 }
