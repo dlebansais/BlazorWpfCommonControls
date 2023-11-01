@@ -6,11 +6,14 @@ using System.Windows;
 using System.Windows.Controls;
 
 /// <summary>
-/// Interaction logic for EyeCircleControl.xaml
+/// Interaction logic for EyeCircleControl.xaml.
 /// </summary>
 public partial class EyeCircleControl : UserControl, INotifyPropertyChanged
 {
     #region Init
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EyeCircleControl"/> class.
+    /// </summary>
     public EyeCircleControl()
     {
         InitializeComponent();
@@ -45,18 +48,33 @@ public partial class EyeCircleControl : UserControl, INotifyPropertyChanged
     /// <param name="newType">The new value.</param>
     public void OnTypeChanged(EyeCircleType newType)
     {
-        NotifyPropertyChanged(nameof(IsTypeOpen));
-        NotifyPropertyChanged(nameof(IsTypeClosed));
-        NotifyPropertyChanged(nameof(IsTypeMixed));
-        NotifyPropertyChanged(nameof(IsTypeEmpty));
+        NotifyPropertyChanged(nameof(WhenOpenVisibility));
+        NotifyPropertyChanged(nameof(WhenClosedVisibility));
+        NotifyPropertyChanged(nameof(WhenMixedVisibility));
+        NotifyPropertyChanged(nameof(WhenEmptyVisibility));
     }
     #endregion
 
     #region Properties
-    public Visibility IsTypeOpen { get { return Type == EyeCircleType.Open ? Visibility.Visible : Visibility.Collapsed; } }
-    public Visibility IsTypeClosed { get { return Type == EyeCircleType.Closed ? Visibility.Visible : Visibility.Collapsed; } }
-    public Visibility IsTypeMixed { get { return Type == EyeCircleType.Mixed ? Visibility.Visible : Visibility.Collapsed; } }
-    public Visibility IsTypeEmpty { get { return Type == EyeCircleType.Empty ? Visibility.Visible : Visibility.Collapsed; } }
+    /// <summary>
+    /// Gets the visibility of an open type.
+    /// </summary>
+    public Visibility WhenOpenVisibility { get { return Type == EyeCircleType.Open ? Visibility.Visible : Visibility.Collapsed; } }
+
+    /// <summary>
+    /// Gets the visibility of a closed type.
+    /// </summary>
+    public Visibility WhenClosedVisibility { get { return Type == EyeCircleType.Closed ? Visibility.Visible : Visibility.Collapsed; } }
+
+    /// <summary>
+    /// Gets the visibility of a mixed type.
+    /// </summary>
+    public Visibility WhenMixedVisibility { get { return Type == EyeCircleType.Mixed ? Visibility.Visible : Visibility.Collapsed; } }
+
+    /// <summary>
+    /// Gets the visibility of an empty type.
+    /// </summary>
+    public Visibility WhenEmptyVisibility { get { return Type == EyeCircleType.Empty ? Visibility.Visible : Visibility.Collapsed; } }
     #endregion
 
     #region Implementation of INotifyPropertyChanged
@@ -67,11 +85,19 @@ public partial class EyeCircleControl : UserControl, INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 #nullable restore annotations
 
+    /// <summary>
+    /// Notifies when a property has changed.
+    /// </summary>
+    /// <param name="propertyName">The property name.</param>
     internal void NotifyPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    /// <summary>
+    /// Notifies when a property has changed.
+    /// </summary>
+    /// <param name="propertyName">The property name, taken from the caller.</param>
     internal void NotifyThisPropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="CustomControls.BlazorWpfCommon.EyeCircleControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:localctrl="clr-namespace:CustomControls">
+             xmlns:localctrl="clr-namespace:CustomControls.BlazorWpfCommon">
     <Grid Background="Transparent">
-        <Path Visibility="{Binding IsTypeOpen, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" StrokeThickness="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Path Visibility="{Binding WhenOpenVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" StrokeThickness="0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Path.Data>
                 <GeometryGroup>
                     <EllipseGeometry RadiusX="10" RadiusY="10"/>
@@ -13,7 +13,7 @@
                 </GeometryGroup>
             </Path.Data>
         </Path>
-        <Path Visibility="{Binding IsTypeClosed, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" StrokeThickness="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Path Visibility="{Binding WhenClosedVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" StrokeThickness="0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Path.Data>
                 <GeometryGroup>
                     <EllipseGeometry RadiusX="10" RadiusY="10"/>
@@ -22,7 +22,7 @@
                 </GeometryGroup>
             </Path.Data>
         </Path>
-        <Path Visibility="{Binding IsTypeMixed, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" StrokeThickness="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Path Visibility="{Binding WhenMixedVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type localctrl:EyeCircleControl}}}" StrokeThickness="0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Path.Data>
                 <GeometryGroup>
                     <EllipseGeometry RadiusX="10" RadiusY="10"/>

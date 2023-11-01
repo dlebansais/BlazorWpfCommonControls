@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,11 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 /// <summary>
-/// Interaction logic for EyeCirclePanel.xaml
+/// Interaction logic for EyeCirclePanel.xaml.
 /// </summary>
 public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
 {
     #region Init
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EyeCirclePanel"/> class.
+    /// </summary>
     public EyeCirclePanel()
     {
         InitializeComponent();
@@ -213,12 +217,12 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
     /// <returns>
     /// The identifier for the <see cref="SelectionChanged"/> routed event.
     /// </returns>
-    public static readonly RoutedEvent SelectionChangedEvent = EventManager.RegisterRoutedEvent("SelectionChanged", RoutingStrategy.Bubble, typeof(CircleSelectionChangedEventHandler), typeof(EyeCirclePanel));
+    public static readonly RoutedEvent SelectionChangedEvent = EventManager.RegisterRoutedEvent("SelectionChanged", RoutingStrategy.Bubble, typeof(EventHandler<CircleSelectionChangedEventArgs>), typeof(EyeCirclePanel));
 
     /// <summary>
     /// Reports that the selection changed.
     /// </summary>
-    public event CircleSelectionChangedEventHandler SelectionChanged
+    public event EventHandler<CircleSelectionChangedEventArgs> SelectionChanged
     {
         add { AddHandler(SelectionChangedEvent, value); }
         remove { RemoveHandler(SelectionChangedEvent, value); }
@@ -274,13 +278,18 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
                 Grid.SetColumn(InternalSelection, Column);
                 Grid.SetRow(InternalSelection, Row);
                 InternalSelection.Visibility = Visibility.Visible;
-                Focus();
+
+                bool IsFocused = Focus();
+                Debug.Assert(IsFocused);
             }
         }
     }
     #endregion
 
     #region Client Interface
+    /// <summary>
+    /// Clears the selection.
+    /// </summary>
     public void ClearSelection()
     {
         InternalSelection.Visibility = Visibility.Hidden;
@@ -339,16 +348,22 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
         {
             for (int i = CollectionLength; i < length; i++)
             {
+                int InsertionIndex;
+
                 if (hasSeparator && (i % 4 == 0) && i > 0)
                 {
-                    GridLength SeparatorGridLength = new GridLength(1, GridUnitType.Star);
+                    GridLength SeparatorGridLength = new(1, GridUnitType.Star);
                     DefinitionBase SeparatorDefinition = activator(SeparatorGridLength);
-                    collection.Add(SeparatorDefinition);
+
+                    InsertionIndex = collection.Add(SeparatorDefinition);
+                    Debug.Assert(InsertionIndex >= 0);
                 }
 
-                GridLength NewItemGridLength = new GridLength(hasSeparator ? 2 : 1, GridUnitType.Star);
+                GridLength NewItemGridLength = new(hasSeparator ? 2 : 1, GridUnitType.Star);
                 DefinitionBase NewItemDefinition = activator(NewItemGridLength);
-                collection.Add(NewItemDefinition);
+
+                InsertionIndex = collection.Add(NewItemDefinition);
+                Debug.Assert(InsertionIndex >= 0);
             }
         }
         else
@@ -368,7 +383,7 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
 
         List<EyeCircleControl> AddedControlList = new();
         UIElementCollection Children = InternalGrid.Children;
-        int SelectionControlCount = 1;
+        const int SelectionControlCount = 1;
 
         for (int j = 0; j < lengthY; j++)
         {
@@ -414,7 +429,7 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
 
     private static Brush CreateAnimatedBrush(Color color)
     {
-        ColorAnimation Animation = new ColorAnimation
+        ColorAnimation Animation = new()
         {
             From = Colors.Transparent,
             To = color,
@@ -424,7 +439,7 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
         };
 
         Animation.Completed += new EventHandler(OnAnimationCompleted);
-        SolidColorBrush Brush = new SolidColorBrush(Colors.Transparent);
+        SolidColorBrush Brush = new(Colors.Transparent);
         Animation.AccelerationRatio = 0.5;
 
         Brush.BeginAnimation(SolidColorBrush.ColorProperty, Animation);
@@ -444,11 +459,19 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 #nullable restore annotations
 
+    /// <summary>
+    /// Notifies when a property has changed.
+    /// </summary>
+    /// <param name="propertyName">The property name.</param>
     internal void NotifyPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    /// <summary>
+    /// Notifies when a property has changed.
+    /// </summary>
+    /// <param name="propertyName">The property name, taken from the caller.</param>
     internal void NotifyThisPropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
