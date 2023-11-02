@@ -19,18 +19,20 @@ public class BidimensionalArray<T>
     /// <summary>
     /// Initializes a new instance of the <see cref="BidimensionalArray{T}"/> class.
     /// </summary>
-    /// <param name="cx">The first dimension length.</param>
-    /// <param name="cy">The second dimension length.</param>
+    /// <param name="lengthX">The first dimension length.</param>
+    /// <param name="lengthY">The second dimension length.</param>
     /// <param name="initialValue">The value to use for initializing each array cell.</param>
-    public BidimensionalArray(int cx, int cy, T initialValue)
+    public BidimensionalArray(int lengthX, int lengthY, T initialValue)
     {
-        Internal = new T[cx][];
+        LengthX = lengthX;
+        LengthY = lengthY;
+        Internal = new T[lengthX][];
 
-        for (int x = 0; x < cx; x++)
+        for (int x = 0; x < lengthX; x++)
         {
-            Internal[x] = new T[cy];
+            Internal[x] = new T[lengthY];
 
-            for (int y = 0; y < cy; y++)
+            for (int y = 0; y < lengthY; y++)
                 Internal[x][y] = initialValue;
         }
     }
@@ -38,12 +40,12 @@ public class BidimensionalArray<T>
     /// <summary>
     /// Gets the length of the first dimension.
     /// </summary>
-    public int LengthX { get { return Internal.GetLength(0); } }
+    public int LengthX { get; }
 
     /// <summary>
     /// Gets the length of the second dimension.
     /// </summary>
-    public int LengthY { get { return Internal.GetLength(1); } }
+    public int LengthY { get; }
 
     /// <summary>
     /// Gets the value at the provided coordinates.
