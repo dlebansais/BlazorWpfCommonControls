@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="CustomControls.BlazorWpfCommon.EyeCirclePanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:localctrl="clr-namespace:CustomControls"
              SizeChanged="OnSizeChanged">
     <Grid x:Name="InternalGrid" HorizontalAlignment="Left" VerticalAlignment="Top">
         <Grid x:Name="InternalSelection" Visibility="Hidden" Margin="-5,-5,-5,-5">
