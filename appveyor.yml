@@ -105,14 +105,6 @@ deploy:
       branch: deployment
       configuration: Debug
   - provider: NuGet
-    artifact: $(APPVEYOR_PROJECT_NAME)-Package-Release
-    skip_symbols: true
-    api_key:
-      secure: gmxGdYXre5ryN4BlRVa0qJM++Sw86tRiKT4hpH5/OTK2daKRpeiOxFsVWpPLGJ+e
-    on:
-      branch: deployment
-      configuration: Release
-  - provider: NuGet
     server: https://nuget.pkg.github.com/dlebansais/index.json
     symbol_server: https://nuget.pkg.github.com/dlebansais/index.json
     artifact: $(APPVEYOR_PROJECT_NAME)-Package-Debug
