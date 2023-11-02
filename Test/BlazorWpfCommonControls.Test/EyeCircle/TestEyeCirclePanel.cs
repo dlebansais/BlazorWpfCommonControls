@@ -1,6 +1,11 @@
 namespace BlazorWpfCommonControls.Test;
 
+using System.Reflection;
 using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 using CustomControls.BlazorWpfCommon;
 using NUnit.Framework;
@@ -53,6 +58,18 @@ public partial class TestEyeCirclePanel
 
             Thread.Sleep(100);
             Panel.Selectable = true;
+            Assert.That(Panel.Selectable, Is.True);
+
+            Grid InternalGrid = (Grid)Panel.GetType().GetField("InternalGrid", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(Panel);
+            EyeCircleControl FirstEyeCircle = (EyeCircleControl)InternalGrid.Children[0];
+
+            var EventArgs = new MouseButtonEventArgs(InputManager.Current.PrimaryMouseDevice, 0, MouseButton.Left);
+            EventArgs.RoutedEvent = UIElement.MouseLeftButtonDownEvent;
+            FirstEyeCircle.RaiseEvent(EventArgs);
+
+            Thread.Sleep(100);
+            Panel.Selectable = false;
+            Assert.That(Panel.Selectable, Is.False);
 
             TestTools.UnloadControl(Popup);
         });

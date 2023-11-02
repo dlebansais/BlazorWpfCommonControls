@@ -45,8 +45,10 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
     private static void OnTypeArrayChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         EyeCirclePanel Control = (EyeCirclePanel)sender;
-        if (args.NewValue is BidimensionalArray<EyeCircleType> NewTypeArray)
-            Control.OnTypeArrayChanged(NewTypeArray);
+        if (args.NewValue is not BidimensionalArray<EyeCircleType> NewTypeArray)
+            throw new ArgumentException(nameof(TypeArray));
+
+        Control.OnTypeArrayChanged(NewTypeArray);
     }
 
     /// <summary>
@@ -75,8 +77,10 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
     private static void OnForegroundArrayChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         EyeCirclePanel Control = (EyeCirclePanel)sender;
-        if (args.NewValue is BidimensionalArray<Brush> NewForegroundArray)
-            Control.OnForegroundArrayChanged(NewForegroundArray);
+        if (args.NewValue is not BidimensionalArray<Brush> NewForegroundArray)
+            throw new ArgumentException(nameof(ForegroundArray));
+
+        Control.OnForegroundArrayChanged(NewForegroundArray);
     }
 
     /// <summary>
@@ -105,8 +109,10 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
     private static void OnToolTipArrayChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         EyeCirclePanel Control = (EyeCirclePanel)sender;
-        if (args.NewValue is BidimensionalArray<string?> NewToolTipArray)
-            Control.OnToolTipArrayChanged(NewToolTipArray);
+        if (args.NewValue is not BidimensionalArray<string?> NewToolTipArray)
+            throw new ArgumentException(nameof(ToolTipArray));
+
+        Control.OnToolTipArrayChanged(NewToolTipArray);
     }
 
     /// <summary>
@@ -135,8 +141,10 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
     private static void OnMaskArrayChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         EyeCirclePanel Control = (EyeCirclePanel)sender;
-        if (args.NewValue is BidimensionalArray<bool> NewMaskArray)
-            Control.OnMaskArrayChanged(NewMaskArray);
+        if (args.NewValue is not BidimensionalArray<bool> NewMaskArray)
+            throw new ArgumentException(nameof(MaskArray));
+
+        Control.OnMaskArrayChanged(NewMaskArray);
     }
 
     /// <summary>
@@ -165,8 +173,10 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
     private static void OnHighlightArrayChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         EyeCirclePanel Control = (EyeCirclePanel)sender;
-        if (args.NewValue is BidimensionalArray<bool> NewHighlightArray)
-            Control.OnHighlightArrayChanged(NewHighlightArray);
+        if (args.NewValue is not BidimensionalArray<bool> NewHighlightArray)
+            throw new ArgumentException(nameof(HighlightArray));
+
+        Control.OnHighlightArrayChanged(NewHighlightArray);
     }
 
     /// <summary>
@@ -195,8 +205,9 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
     private static void OnSelectableChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         EyeCirclePanel Control = (EyeCirclePanel)sender;
-        if (args.NewValue is bool NewSelectable)
-            Control.OnSelectableChanged(NewSelectable);
+        bool NewSelectable = (bool)args.NewValue;
+
+        Control.OnSelectableChanged(NewSelectable);
     }
 
     /// <summary>
@@ -278,9 +289,6 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
                 Grid.SetColumn(InternalSelection, Column);
                 Grid.SetRow(InternalSelection, Row);
                 InternalSelection.Visibility = Visibility.Visible;
-
-                bool IsFocused = Focus();
-                Debug.Assert(IsFocused);
             }
         }
     }
