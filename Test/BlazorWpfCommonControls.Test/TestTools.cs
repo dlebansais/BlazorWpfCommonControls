@@ -1,6 +1,7 @@
 namespace BlazorWpfCommonControls.Test;
 
 using System;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
