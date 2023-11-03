@@ -23,7 +23,10 @@ public class EyeCircleTypeToVisibilityConverter : IValueConverter
     /// <returns>A converted value.</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value?.ToString() == parameter?.ToString())
+        EyeCircleType TypeValue = (EyeCircleType)value;
+        string StringParameter = (string)parameter;
+
+        if (TypeValue.ToString() == StringParameter)
             return Visibility.Visible;
         else
             return Visibility.Collapsed;

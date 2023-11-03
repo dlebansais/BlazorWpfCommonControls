@@ -31,9 +31,6 @@ public static class TestTools
         NewPopup.Child = Control;
         NewPopup.IsOpen = true;
 
-        while (!Control.IsLoaded)
-            Thread.Sleep(1);
-
         return NewPopup;
     }
 

@@ -1,11 +1,13 @@
 namespace BlazorWpfCommonControls.Test;
 
+using System;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using CustomControls.BlazorWpfCommon;
 using NUnit.Framework;
 
@@ -305,6 +307,31 @@ public partial class TestEyeCirclePanel
             Panel.HighlightArray = new(4, 1, false);
 
             TestTools.UnloadControl(Popup);
+        });
+    }
+
+    [Test]
+    public void TestAnimation()
+    {
+        TestTools.StaThreadWrapper(() =>
+        {
+            EyeCirclePanel Panel = new();
+            Panel.TypeArray = new(8, 2, EyeCircleType.Open);
+            Panel.ForegroundArray = new(8, 2, Brushes.Black);
+            Panel.ToolTipArray = new(8, 2, "Test");
+            Panel.MaskArray = new(8, 2, true);
+            Panel.HighlightArray = new(8, 2, true);
+
+            var Popup = TestTools.LoadControl(Panel);
+
+            Timer StopTimer = new(new TimerCallback((object parameter) =>
+            {
+                _ = Panel.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    TestTools.UnloadControl(Popup);
+                }), DispatcherPriority.Send);
+            }));
+            _ = StopTimer.Change(TimeSpan.FromSeconds(2), Timeout.InfiniteTimeSpan);
         });
     }
 }

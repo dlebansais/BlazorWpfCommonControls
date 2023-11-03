@@ -324,7 +324,10 @@ public partial class EyeCirclePanel : UserControl
     private void UpdateInternalSize(int lengthX, int lengthY)
     {
         if (double.IsNaN(ActualWidth) || double.IsNaN(ActualHeight))
+        {
+            Debug.WriteLine($"ActualWidth: {ActualWidth}, ActualHeight: {ActualHeight}");
             return;
+        }
 
         if (lengthX == 0 || lengthY == 0)
         {
@@ -448,16 +451,11 @@ public partial class EyeCirclePanel : UserControl
             RepeatBehavior = RepeatBehavior.Forever,
         };
 
-        Animation.Completed += new EventHandler(OnAnimationCompleted);
         SolidColorBrush Brush = new(Colors.Transparent);
         Animation.AccelerationRatio = 0.5;
 
         Brush.BeginAnimation(SolidColorBrush.ColorProperty, Animation);
         return Brush;
-    }
-
-    private static void OnAnimationCompleted(object? sender, EventArgs e)
-    {
     }
     #endregion
 }
