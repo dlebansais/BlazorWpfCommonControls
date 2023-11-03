@@ -15,7 +15,7 @@ using System.Windows.Media.Animation;
 /// <summary>
 /// Interaction logic for EyeCirclePanel.xaml.
 /// </summary>
-public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
+public partial class EyeCirclePanel : UserControl
 {
     #region Init
     /// <summary>
@@ -274,7 +274,9 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
 
     private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs args)
     {
-        if (sender is EyeCircleControl Control && Selectable)
+        EyeCircleControl Control = (EyeCircleControl)sender;
+
+        if (Selectable)
         {
             int Column = Grid.GetColumn(Control);
             int Row = Grid.GetRow(Control);
@@ -456,33 +458,6 @@ public partial class EyeCirclePanel : UserControl, INotifyPropertyChanged
 
     private static void OnAnimationCompleted(object? sender, EventArgs e)
     {
-    }
-    #endregion
-
-    #region Implementation of INotifyPropertyChanged
-    /// <summary>
-    /// Implements the PropertyChanged event.
-    /// </summary>
-#nullable disable annotations
-    public event PropertyChangedEventHandler PropertyChanged;
-#nullable restore annotations
-
-    /// <summary>
-    /// Notifies when a property has changed.
-    /// </summary>
-    /// <param name="propertyName">The property name.</param>
-    internal void NotifyPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    /// <summary>
-    /// Notifies when a property has changed.
-    /// </summary>
-    /// <param name="propertyName">The property name, taken from the caller.</param>
-    internal void NotifyThisPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
     #endregion
 }

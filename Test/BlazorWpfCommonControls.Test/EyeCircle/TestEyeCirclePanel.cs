@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using CustomControls.BlazorWpfCommon;
@@ -56,6 +55,26 @@ public partial class TestEyeCirclePanel
             HighlightArray.Set(3, 0, false);
             Panel.HighlightArray = HighlightArray;
 
+            TestTools.UnloadControl(Popup);
+        });
+    }
+
+    [Test]
+    public void TestSelection()
+    {
+        TestTools.StaThreadWrapper(() =>
+        {
+            EyeCirclePanel Panel = new();
+            Panel.TypeArray = new(4, 1, EyeCircleType.Empty);
+            Panel.ForegroundArray = new(4, 1, Brushes.Transparent);
+            Panel.ToolTipArray = new(4, 1, null);
+            Panel.MaskArray = new(4, 1, false);
+            Panel.HighlightArray = new(4, 1, false);
+
+            var Popup = TestTools.LoadControl(Panel);
+
+            Panel.SelectionChanged += OnSelectionChanged;
+
             Thread.Sleep(100);
             Panel.Selectable = true;
             Assert.That(Panel.Selectable, Is.True);
@@ -71,7 +90,19 @@ public partial class TestEyeCirclePanel
             Panel.Selectable = false;
             Assert.That(Panel.Selectable, Is.False);
 
+            Panel.SelectionChanged -= OnSelectionChanged;
+
+            FirstEyeCircle.RaiseEvent(EventArgs);
+
             TestTools.UnloadControl(Popup);
         });
+    }
+
+    private void OnSelectionChanged(object sender, CircleSelectionChangedEventArgs args)
+    {
+        Assert.That(args.X, Is.EqualTo(0));
+        Assert.That(args.Y, Is.EqualTo(0));
+
+        args.ClearSelection = true;
     }
 }
