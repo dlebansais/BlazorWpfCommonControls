@@ -323,12 +323,6 @@ public partial class EyeCirclePanel : UserControl
 
     private void UpdateInternalSize(int lengthX, int lengthY)
     {
-        if (double.IsNaN(ActualWidth) || double.IsNaN(ActualHeight))
-        {
-            Debug.WriteLine($"ActualWidth: {ActualWidth}, ActualHeight: {ActualHeight}");
-            return;
-        }
-
         if (lengthX == 0 || lengthY == 0)
         {
             InternalGrid.Width = 0;
