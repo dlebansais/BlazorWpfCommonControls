@@ -8,9 +8,9 @@
         <UseWPF>true</UseWPF>
 
         <RootNamespace>CustomControls.BlazorWpfCommon</RootNamespace>
-        <Version>0.0.2</Version>
-        <AssemblyVersion>0.0.2.1</AssemblyVersion>
-        <FileVersion>0.0.2.1</FileVersion>
+        <Version>0.0.3</Version>
+        <AssemblyVersion>0.0.3.1</AssemblyVersion>
+        <FileVersion>0.0.3.1</FileVersion>
         <Authors>David Le Bansais</Authors>
         <Company />
         <Product />
