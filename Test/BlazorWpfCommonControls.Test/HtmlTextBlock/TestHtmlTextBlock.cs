@@ -18,7 +18,7 @@ public partial class TestHtmlTextBlock
 
 <h2>The First Era</h2>
 
-<span style=""color:blue"">Our creator</span>
+<span></span><span style=""color:blue"">Our creator</span>
 <span style=""color:red"">Our creator</span>
 <span style=""color:lightgreen"">Our creator</span>
 <span style=""color:white"">Our creator</span>
@@ -28,6 +28,7 @@ public partial class TestHtmlTextBlock
 <span style="""">Our creator</span>
 , the great wizard Dalvos. Thus began Revision 1.
 The answer is no.
+<unexpected></unexpected>
 ";
 
             var Popup = TestTools.LoadControl(Control);
