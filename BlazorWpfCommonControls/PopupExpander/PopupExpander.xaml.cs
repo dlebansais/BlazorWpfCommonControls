@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -70,7 +69,7 @@ public partial class PopupExpander : UserControl
     /// Called when the IsExpanded property has changed.
     /// </summary>
     /// <param name="newIsExpanded">The new value.</param>
-    public void OnIsExpandedChanged(bool newIsExpanded)
+    public virtual void OnIsExpandedChanged(bool newIsExpanded)
     {
         if (newIsExpanded)
         {
@@ -107,7 +106,7 @@ public partial class PopupExpander : UserControl
     /// Called when the Header property has changed.
     /// </summary>
     /// <param name="newHeader">The new value.</param>
-    public void OnHeaderChanged(string newHeader)
+    public virtual void OnHeaderChanged(string newHeader)
     {
         NotifyPropertyChanged(nameof(HeaderMargin));
     }
@@ -136,9 +135,8 @@ public partial class PopupExpander : UserControl
     /// Called when the Content property has changed.
     /// </summary>
     /// <param name="newContent">The new value.</param>
-    public void OnContentChanged(object? newContent)
+    public virtual void OnContentChanged(object? newContent)
     {
-        NotifyPropertyChanged(nameof(HeaderMargin));
     }
 
     /// <summary>
@@ -168,9 +166,8 @@ public partial class PopupExpander : UserControl
     /// Called when the ContentTemplate property has changed.
     /// </summary>
     /// <param name="newContentTemplate">The new value.</param>
-    public void OnContentTemplateChanged(DataTemplate newContentTemplate)
+    public virtual void OnContentTemplateChanged(DataTemplate newContentTemplate)
     {
-        NotifyPropertyChanged(nameof(HeaderMargin));
     }
 
     /// <summary>
@@ -199,9 +196,8 @@ public partial class PopupExpander : UserControl
     /// Called when the PopupWidth property has changed.
     /// </summary>
     /// <param name="newPopupWidth">The new value.</param>
-    public void OnPopupWidthChanged(double newPopupWidth)
+    public virtual void OnPopupWidthChanged(double newPopupWidth)
     {
-        NotifyPropertyChanged(nameof(HeaderMargin));
     }
 
     /// <summary>
@@ -230,9 +226,8 @@ public partial class PopupExpander : UserControl
     /// Called when the PopupHeight property has changed.
     /// </summary>
     /// <param name="newPopupHeight">The new value.</param>
-    public void OnPopupHeightChanged(double newPopupHeight)
+    public virtual void OnPopupHeightChanged(double newPopupHeight)
     {
-        NotifyPropertyChanged(nameof(HeaderMargin));
     }
 
     /// <summary>
@@ -261,9 +256,8 @@ public partial class PopupExpander : UserControl
     /// Called when the HorizontalOffset property has changed.
     /// </summary>
     /// <param name="newHorizontalOffset">The new value.</param>
-    public void OnHorizontalOffsetChanged(double newHorizontalOffset)
+    public virtual void OnHorizontalOffsetChanged(double newHorizontalOffset)
     {
-        NotifyPropertyChanged(nameof(HeaderMargin));
     }
 
     /// <summary>
@@ -292,9 +286,8 @@ public partial class PopupExpander : UserControl
     /// Called when the VerticalOffset property has changed.
     /// </summary>
     /// <param name="newVerticalOffset">The new value.</param>
-    public void OnVerticalOffsetChanged(double newVerticalOffset)
+    public virtual void OnVerticalOffsetChanged(double newVerticalOffset)
     {
-        NotifyPropertyChanged(nameof(HeaderMargin));
     }
 
     /// <summary>

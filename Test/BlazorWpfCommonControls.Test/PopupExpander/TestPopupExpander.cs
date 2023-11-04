@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Threading;
 using CustomControls.BlazorWpfCommon;
@@ -17,6 +18,12 @@ public partial class TestPopupExpander
     {
         bool Success = TestTools.StaThreadWrapper((Application app) =>
         {
+            PopupExpander OtherControl1 = new();
+            PopupExpander OtherControl2 = new();
+            Grid WindowGrid = (Grid)app.MainWindow.Content;
+            _ = WindowGrid.Children.Add(OtherControl1);
+            _ = WindowGrid.Children.Add(OtherControl2);
+
             PopupExpander Control = new();
             var Popup = TestTools.LoadControl(Control);
             Control.Header = "Header";
@@ -68,15 +75,15 @@ public partial class TestPopupExpander
             }));
             _ = HideExpanderTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
 
-            Timer AlignButtonCenterTimer = new(new TimerCallback((object parameter) =>
+            Timer AlignButtonRightTimer = new(new TimerCallback((object parameter) =>
             {
                 _ = Control.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    Control.ButtonAlignment = HorizontalAlignment.Center;
+                    Control.ButtonAlignment = HorizontalAlignment.Right;
                     Control.IsExpanded = true;
                 }), DispatcherPriority.ContextIdle);
             }));
-            _ = AlignButtonCenterTimer.Change(TimeSpan.FromSeconds(2), Timeout.InfiniteTimeSpan);
+            _ = AlignButtonRightTimer.Change(TimeSpan.FromSeconds(2), Timeout.InfiniteTimeSpan);
 
             Timer HideTimer = new(new TimerCallback((object parameter) =>
             {

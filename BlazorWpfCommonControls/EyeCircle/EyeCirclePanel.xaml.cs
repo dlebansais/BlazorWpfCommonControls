@@ -55,7 +55,7 @@ public partial class EyeCirclePanel : UserControl
     /// Called when the TypeArray property has changed.
     /// </summary>
     /// <param name="newTypeArray">The new value.</param>
-    public void OnTypeArrayChanged(BidimensionalArray<EyeCircleType> newTypeArray)
+    public virtual void OnTypeArrayChanged(BidimensionalArray<EyeCircleType> newTypeArray)
     {
         UpdateArray(newTypeArray, ForegroundArray, ToolTipArray, MaskArray, HighlightArray);
     }
@@ -87,7 +87,7 @@ public partial class EyeCirclePanel : UserControl
     /// Called when the ForegroundArray property has changed.
     /// </summary>
     /// <param name="newForegroundArray">The new value.</param>
-    public void OnForegroundArrayChanged(BidimensionalArray<Brush> newForegroundArray)
+    public virtual void OnForegroundArrayChanged(BidimensionalArray<Brush> newForegroundArray)
     {
         UpdateArray(TypeArray, newForegroundArray, ToolTipArray, MaskArray, HighlightArray);
     }
@@ -119,7 +119,7 @@ public partial class EyeCirclePanel : UserControl
     /// Called when the ToolTipArray property has changed.
     /// </summary>
     /// <param name="newToolTipArray">The new value.</param>
-    public void OnToolTipArrayChanged(BidimensionalArray<string?> newToolTipArray)
+    public virtual void OnToolTipArrayChanged(BidimensionalArray<string?> newToolTipArray)
     {
         UpdateArray(TypeArray, ForegroundArray, newToolTipArray, MaskArray, HighlightArray);
     }
@@ -151,7 +151,7 @@ public partial class EyeCirclePanel : UserControl
     /// Called when the MaskArray property has changed.
     /// </summary>
     /// <param name="newMaskArray">The new value.</param>
-    public void OnMaskArrayChanged(BidimensionalArray<bool> newMaskArray)
+    public virtual void OnMaskArrayChanged(BidimensionalArray<bool> newMaskArray)
     {
         UpdateArray(TypeArray, ForegroundArray, ToolTipArray, newMaskArray, HighlightArray);
     }
@@ -183,7 +183,7 @@ public partial class EyeCirclePanel : UserControl
     /// Called when the HighlightArray property has changed.
     /// </summary>
     /// <param name="newHighlightArray">The new value.</param>
-    public void OnHighlightArrayChanged(BidimensionalArray<bool> newHighlightArray)
+    public virtual void OnHighlightArrayChanged(BidimensionalArray<bool> newHighlightArray)
     {
         UpdateArray(TypeArray, ForegroundArray, ToolTipArray, MaskArray, newHighlightArray);
     }
@@ -214,7 +214,7 @@ public partial class EyeCirclePanel : UserControl
     /// Called when the Selectable property has changed.
     /// </summary>
     /// <param name="newSelectable">The new value.</param>
-    public void OnSelectableChanged(bool newSelectable)
+    public virtual void OnSelectableChanged(bool newSelectable)
     {
         if (!newSelectable)
             ClearSelection();
