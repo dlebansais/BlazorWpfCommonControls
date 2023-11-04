@@ -57,8 +57,8 @@ public partial class TestPopupExpander
             }));
             _ = StopTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
 
-            Control.IsExpanded = true;
-            Thread.Sleep(100);
+            //Control.IsExpanded = true;
+            //Thread.Sleep(100);
             Control.IsExpanded = false;
             Thread.Sleep(100);
         });

@@ -3,6 +3,7 @@ namespace BlazorWpfCommonControls.Test;
 using System;
 using System.Drawing;
 using System.Threading;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
@@ -14,6 +15,14 @@ public static class TestTools
     {
         var NewThread = new Thread(new ThreadStart(() =>
         {
+            Window NewWindow = new();
+            NewWindow.Content = new Grid();
+
+            Application NewApp = new();
+            NewApp.MainWindow = NewWindow;
+
+            NewWindow.Show();
+
             action();
             Dispatcher.Run();
         }));
