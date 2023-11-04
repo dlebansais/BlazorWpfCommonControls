@@ -15,7 +15,7 @@ public partial class TestPopupExpander
     [Test]
     public void TestSimpleLoad()
     {
-        bool Success = TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper((Application app) =>
         {
             PopupExpander Control = new();
             var Popup = TestTools.LoadControl(Control);
@@ -55,20 +55,38 @@ public partial class TestPopupExpander
             Assert.That(Control.HeaderMargin.Right, Is.EqualTo(0));
             Assert.That(Control.HeaderMargin.Bottom, Is.EqualTo(0));
 
+            Control.IsExpanded = true;
+            Assert.That(Control.IsExpanded, Is.True);
+            Thread.Sleep(100);
+
+            Timer AlignButtonCenterTimer = new(new TimerCallback((object parameter) =>
+            {
+                _ = Control.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    Control.ButtonAlignment = HorizontalAlignment.Center;
+                }), DispatcherPriority.ContextIdle);
+            }));
+            _ = AlignButtonCenterTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
+
+            Timer HideTimer = new(new TimerCallback((object parameter) =>
+            {
+                _ = Control.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    app.MainWindow.Hide();
+                }), DispatcherPriority.ContextIdle);
+            }));
+            _ = HideTimer.Change(TimeSpan.FromSeconds(2), Timeout.InfiniteTimeSpan);
+
             Timer StopTimer = new(new TimerCallback((object parameter) =>
             {
                 _ = Control.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     TestTools.UnloadControl(Popup);
-                }), DispatcherPriority.Send);
+                    app.Shutdown();
+                }), DispatcherPriority.ContextIdle);
             }));
-            _ = StopTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
-
-            Control.IsExpanded = true;
-            Thread.Sleep(100);
-            Control.IsExpanded = false;
-            Thread.Sleep(100);
-        }, createApp: true);
+            _ = StopTimer.Change(TimeSpan.FromSeconds(3), Timeout.InfiniteTimeSpan);
+        });
 
         Assert.IsTrue(Success);
     }

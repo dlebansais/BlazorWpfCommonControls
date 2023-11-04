@@ -60,8 +60,10 @@ public partial class PopupExpander : UserControl
     private static void OnIsExpandedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is bool NewIsExpanded)
-            Control.OnIsExpandedChanged(NewIsExpanded);
+        if (args.NewValue is not bool NewIsExpanded)
+            throw new ArgumentException(nameof(IsExpanded));
+
+        Control.OnIsExpandedChanged(NewIsExpanded);
     }
 
     /// <summary>
@@ -95,8 +97,10 @@ public partial class PopupExpander : UserControl
     private static void OnHeaderChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is string NewHeader)
-            Control.OnHeaderChanged(NewHeader);
+        if (args.NewValue is not string NewHeader)
+            throw new ArgumentException(nameof(Header));
+
+        Control.OnHeaderChanged(NewHeader);
     }
 
     /// <summary>
@@ -111,7 +115,7 @@ public partial class PopupExpander : UserControl
     /// <summary>
     /// Gets or sets the popup content.
     /// </summary>
-    public new object Content
+    public new object? Content
     {
         get { return GetValue(ContentProperty); }
         set { SetValue(ContentProperty, value); }
@@ -132,7 +136,7 @@ public partial class PopupExpander : UserControl
     /// Called when the Content property has changed.
     /// </summary>
     /// <param name="newContent">The new value.</param>
-    public void OnContentChanged(object newContent)
+    public void OnContentChanged(object? newContent)
     {
         NotifyPropertyChanged(nameof(HeaderMargin));
     }
@@ -154,8 +158,10 @@ public partial class PopupExpander : UserControl
     private static void OnContentTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is DataTemplate NewContentTemplate)
-            Control.OnContentTemplateChanged(NewContentTemplate);
+        if (args.NewValue is not DataTemplate NewContentTemplate)
+            throw new ArgumentException(nameof(ContentTemplate));
+
+        Control.OnContentTemplateChanged(NewContentTemplate);
     }
 
     /// <summary>
@@ -184,8 +190,10 @@ public partial class PopupExpander : UserControl
     private static void OnPopupWidthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is double NewPopupWidth)
-            Control.OnPopupWidthChanged(NewPopupWidth);
+        if (args.NewValue is not double NewPopupWidth)
+            throw new ArgumentException(nameof(PopupWidth));
+
+        Control.OnPopupWidthChanged(NewPopupWidth);
     }
 
     /// <summary>
@@ -214,8 +222,10 @@ public partial class PopupExpander : UserControl
     private static void OnPopupHeightChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is double NewPopupHeight)
-            Control.OnPopupHeightChanged(NewPopupHeight);
+        if (args.NewValue is not double NewPopupHeight)
+            throw new ArgumentException(nameof(PopupHeight));
+
+        Control.OnPopupHeightChanged(NewPopupHeight);
     }
 
     /// <summary>
@@ -244,8 +254,10 @@ public partial class PopupExpander : UserControl
     private static void OnHorizontalOffsetChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is double NewHorizontalOffset)
-            Control.OnHorizontalOffsetChanged(NewHorizontalOffset);
+        if (args.NewValue is not double NewHorizontalOffset)
+            throw new ArgumentException(nameof(HorizontalOffset));
+
+        Control.OnHorizontalOffsetChanged(NewHorizontalOffset);
     }
 
     /// <summary>
@@ -274,8 +286,10 @@ public partial class PopupExpander : UserControl
     private static void OnVerticalOffsetChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is double NewVerticalOffset)
-            Control.OnVerticalOffsetChanged(NewVerticalOffset);
+        if (args.NewValue is not double NewVerticalOffset)
+            throw new ArgumentException(nameof(VerticalOffset));
+
+        Control.OnVerticalOffsetChanged(NewVerticalOffset);
     }
 
     /// <summary>
@@ -304,8 +318,10 @@ public partial class PopupExpander : UserControl
     private static void OnButtonAlignmentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is HorizontalAlignment NewButtonAlignment)
-            Control.OnButtonAlignmentChanged(NewButtonAlignment);
+        if (args.NewValue is not HorizontalAlignment NewButtonAlignment)
+            throw new ArgumentException(nameof(ButtonAlignment));
+
+        Control.OnButtonAlignmentChanged(NewButtonAlignment);
     }
 
     /// <summary>
@@ -390,15 +406,6 @@ public partial class PopupExpander : UserControl
     /// </summary>
     /// <param name="propertyName">The property name.</param>
     internal void NotifyPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    /// <summary>
-    /// Notifies that a property has changed.
-    /// </summary>
-    /// <param name="propertyName">The property name.</param>
-    internal void NotifyThisPropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
