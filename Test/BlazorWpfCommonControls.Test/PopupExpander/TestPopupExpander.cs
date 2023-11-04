@@ -59,23 +59,34 @@ public partial class TestPopupExpander
             Assert.That(Control.IsExpanded, Is.True);
             Thread.Sleep(100);
 
+            Timer HideExpanderTimer = new(new TimerCallback((object parameter) =>
+            {
+                _ = Control.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    Control.IsExpanded = false;
+                }), DispatcherPriority.ContextIdle);
+            }));
+            _ = HideExpanderTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
+
             Timer AlignButtonCenterTimer = new(new TimerCallback((object parameter) =>
             {
                 _ = Control.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     Control.ButtonAlignment = HorizontalAlignment.Center;
+                    Control.IsExpanded = true;
                 }), DispatcherPriority.ContextIdle);
             }));
-            _ = AlignButtonCenterTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
+            _ = AlignButtonCenterTimer.Change(TimeSpan.FromSeconds(2), Timeout.InfiniteTimeSpan);
 
             Timer HideTimer = new(new TimerCallback((object parameter) =>
             {
                 _ = Control.Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    Control.IsExpanded = false;
                     app.MainWindow.Hide();
                 }), DispatcherPriority.ContextIdle);
             }));
-            _ = HideTimer.Change(TimeSpan.FromSeconds(2), Timeout.InfiniteTimeSpan);
+            _ = HideTimer.Change(TimeSpan.FromSeconds(3), Timeout.InfiniteTimeSpan);
 
             Timer StopTimer = new(new TimerCallback((object parameter) =>
             {
@@ -85,7 +96,7 @@ public partial class TestPopupExpander
                     app.Shutdown();
                 }), DispatcherPriority.ContextIdle);
             }));
-            _ = StopTimer.Change(TimeSpan.FromSeconds(3), Timeout.InfiniteTimeSpan);
+            _ = StopTimer.Change(TimeSpan.FromSeconds(4), Timeout.InfiniteTimeSpan);
         });
 
         Assert.IsTrue(Success);

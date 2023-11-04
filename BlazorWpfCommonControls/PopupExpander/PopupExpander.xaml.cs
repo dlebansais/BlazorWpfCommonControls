@@ -21,8 +21,9 @@ public partial class PopupExpander : UserControl
     {
         InitializeComponent();
 
-        Application CurrentApp = Application.Current;
-        CurrentApp.Deactivated += OnDeactivated;
+        if (Application.Current is Application CurrentApp)
+            CurrentApp.Deactivated += OnDeactivated;
+
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
@@ -60,8 +61,7 @@ public partial class PopupExpander : UserControl
     private static void OnIsExpandedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is not bool NewIsExpanded)
-            throw new ArgumentException(nameof(IsExpanded));
+        bool NewIsExpanded = (bool)args.NewValue;
 
         Control.OnIsExpandedChanged(NewIsExpanded);
     }
@@ -190,8 +190,7 @@ public partial class PopupExpander : UserControl
     private static void OnPopupWidthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is not double NewPopupWidth)
-            throw new ArgumentException(nameof(PopupWidth));
+        double NewPopupWidth = (double)args.NewValue;
 
         Control.OnPopupWidthChanged(NewPopupWidth);
     }
@@ -222,8 +221,7 @@ public partial class PopupExpander : UserControl
     private static void OnPopupHeightChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is not double NewPopupHeight)
-            throw new ArgumentException(nameof(PopupHeight));
+        double NewPopupHeight = (double)args.NewValue;
 
         Control.OnPopupHeightChanged(NewPopupHeight);
     }
@@ -254,8 +252,7 @@ public partial class PopupExpander : UserControl
     private static void OnHorizontalOffsetChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is not double NewHorizontalOffset)
-            throw new ArgumentException(nameof(HorizontalOffset));
+        double NewHorizontalOffset = (double)args.NewValue;
 
         Control.OnHorizontalOffsetChanged(NewHorizontalOffset);
     }
@@ -286,8 +283,7 @@ public partial class PopupExpander : UserControl
     private static void OnVerticalOffsetChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is not double NewVerticalOffset)
-            throw new ArgumentException(nameof(VerticalOffset));
+        double NewVerticalOffset = (double)args.NewValue;
 
         Control.OnVerticalOffsetChanged(NewVerticalOffset);
     }
@@ -318,8 +314,7 @@ public partial class PopupExpander : UserControl
     private static void OnButtonAlignmentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         PopupExpander Control = (PopupExpander)sender;
-        if (args.NewValue is not HorizontalAlignment NewButtonAlignment)
-            throw new ArgumentException(nameof(ButtonAlignment));
+        HorizontalAlignment NewButtonAlignment = (HorizontalAlignment)args.NewValue;
 
         Control.OnButtonAlignmentChanged(NewButtonAlignment);
     }
