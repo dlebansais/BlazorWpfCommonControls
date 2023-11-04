@@ -11,25 +11,39 @@ using Contracts;
 
 public static class TestTools
 {
-    public static void StaThreadWrapper(Action action)
+    public static bool StaThreadWrapper(Action action, bool createApp = false)
     {
+        bool Success = true;
+
         var NewThread = new Thread(new ThreadStart(() =>
         {
-            Window NewWindow = new();
-            NewWindow.Content = new Grid();
+            try
+            {
+                if (createApp)
+                {
+                    Window NewWindow = new();
+                    NewWindow.Content = new Grid();
 
-            Application NewApp = new();
-            NewApp.MainWindow = NewWindow;
+                    Application NewApp = new();
+                    NewApp.MainWindow = NewWindow;
 
-            NewWindow.Show();
+                    NewWindow.Show();
+                }
 
-            action();
-            Dispatcher.Run();
+                action();
+                Dispatcher.Run();
+            }
+            catch
+            {
+                Success = false;
+            }
         }));
 
         NewThread.SetApartmentState(ApartmentState.STA);
         NewThread.Start();
         NewThread.Join();
+
+        return Success;
     }
 
     public static Popup LoadControl(Control control)

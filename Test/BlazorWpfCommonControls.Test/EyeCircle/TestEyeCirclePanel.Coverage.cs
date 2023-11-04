@@ -9,7 +9,7 @@ public partial class TestEyeCirclePanel
     [Test]
     public void TestNullTypeArray()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             var Popup = TestTools.LoadControl(Panel);
@@ -17,12 +17,14 @@ public partial class TestEyeCirclePanel
             Assert.That(Exception.Message, Is.EqualTo(nameof(EyeCirclePanel.TypeArray)));
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestNullForegroundArray()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             var Popup = TestTools.LoadControl(Panel);
@@ -30,12 +32,14 @@ public partial class TestEyeCirclePanel
             Assert.That(Exception.Message, Is.EqualTo(nameof(EyeCirclePanel.ForegroundArray)));
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestNullToolTipArray()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             var Popup = TestTools.LoadControl(Panel);
@@ -43,12 +47,14 @@ public partial class TestEyeCirclePanel
             Assert.That(Exception.Message, Is.EqualTo(nameof(EyeCirclePanel.ToolTipArray)));
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestMaskToolTipArray()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             var Popup = TestTools.LoadControl(Panel);
@@ -56,12 +62,14 @@ public partial class TestEyeCirclePanel
             Assert.That(Exception.Message, Is.EqualTo(nameof(EyeCirclePanel.MaskArray)));
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestHighlightToolTipArray()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             var Popup = TestTools.LoadControl(Panel);
@@ -69,5 +77,7 @@ public partial class TestEyeCirclePanel
             Assert.That(Exception.Message, Is.EqualTo(nameof(EyeCirclePanel.HighlightArray)));
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 }

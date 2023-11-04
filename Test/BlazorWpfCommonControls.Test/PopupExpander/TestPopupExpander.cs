@@ -12,7 +12,7 @@ public partial class TestPopupExpander
     [Test]
     public void TestSimpleLoad()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             PopupExpander Control = new();
             var Popup = TestTools.LoadControl(Control);
@@ -61,6 +61,8 @@ public partial class TestPopupExpander
             //Thread.Sleep(100);
             Control.IsExpanded = false;
             Thread.Sleep(100);
-        });
+        }, createApp: true);
+
+        Assert.IsTrue(Success);
     }
 }

@@ -9,7 +9,7 @@ public partial class TestEyeCircleControl
     [Test]
     public void TestSimpleLoad()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCircleControl Control = new();
             var Popup = TestTools.LoadControl(Control);
@@ -23,5 +23,7 @@ public partial class TestEyeCircleControl
             Assert.That(Control.Type, Is.EqualTo(EyeCircleType.Open));
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 }

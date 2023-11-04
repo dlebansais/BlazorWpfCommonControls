@@ -8,11 +8,13 @@ public partial class TestBusyIndicator
     [Test]
     public void TestSimpleLoad()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             BusyIndicator Control = new();
             var Popup = TestTools.LoadControl(Control);
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 }

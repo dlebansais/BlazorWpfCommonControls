@@ -16,7 +16,7 @@ public partial class TestEyeCirclePanel
     [Test]
     public void TestSimpleLoad()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             var Popup = TestTools.LoadControl(Panel);
@@ -59,12 +59,14 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestSelection()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             Panel.TypeArray = new(4, 1, EyeCircleType.Empty);
@@ -116,6 +118,8 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     private void OnSelectionChangedNoClear(object sender, CircleSelectionChangedEventArgs args)
@@ -137,7 +141,7 @@ public partial class TestEyeCirclePanel
     [Test]
     public void TestSizeNaN()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             Panel.TypeArray = new(4, 1, EyeCircleType.Empty);
@@ -153,12 +157,14 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestSizeNaNWidth()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             Panel.TypeArray = new(4, 1, EyeCircleType.Empty);
@@ -174,12 +180,14 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestSizeNaNHeight()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             Panel.TypeArray = new(4, 1, EyeCircleType.Empty);
@@ -195,12 +203,14 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestSizeZero()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             Panel.TypeArray = new(4, 1, EyeCircleType.Empty);
@@ -216,12 +226,14 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestSizeNotZero()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             Panel.TypeArray = new(4, 1, EyeCircleType.Empty);
@@ -237,12 +249,14 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestLargeLoad()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             var Popup = TestTools.LoadControl(Panel);
@@ -256,12 +270,14 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestEnlarge()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             Panel.TypeArray = new(4, 1, EyeCircleType.Empty);
@@ -282,12 +298,14 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestShrink()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             Panel.TypeArray = new(8, 2, EyeCircleType.Open);
@@ -308,12 +326,14 @@ public partial class TestEyeCirclePanel
 
             TestTools.UnloadControl(Popup);
         });
+
+        Assert.IsTrue(Success);
     }
 
     [Test]
     public void TestAnimation()
     {
-        TestTools.StaThreadWrapper(() =>
+        bool Success = TestTools.StaThreadWrapper(() =>
         {
             EyeCirclePanel Panel = new();
             Panel.TypeArray = new(8, 2, EyeCircleType.Open);
@@ -333,5 +353,7 @@ public partial class TestEyeCirclePanel
             }));
             _ = StopTimer.Change(TimeSpan.FromSeconds(2), Timeout.InfiniteTimeSpan);
         });
+
+        Assert.IsTrue(Success);
     }
 }
