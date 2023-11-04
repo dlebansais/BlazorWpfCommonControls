@@ -1,8 +1,11 @@
 namespace BlazorWpfCommonControls.Test;
 
 using System;
+using System.IO;
+using System.Text;
 using System.Threading;
 using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Threading;
 using CustomControls.BlazorWpfCommon;
 using NUnit.Framework;
@@ -20,9 +23,13 @@ public partial class TestPopupExpander
             Assert.That(Control.Header, Is.EqualTo("Header"));
             Control.Content = "Content";
             Assert.That(Control.Content, Is.EqualTo("Content"));
-            FrameworkElementFactory VisualTree = new();
-            Control.ContentTemplate = new DataTemplate() { VisualTree = VisualTree };
-            Assert.That(Control.ContentTemplate.VisualTree, Is.EqualTo(VisualTree));
+            using Stream DataTemplateStream = new MemoryStream(Encoding.UTF8.GetBytes(@"
+<DataTemplate xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">
+    <TextBlock />
+</DataTemplate>
+"));
+            Control.ContentTemplate = (DataTemplate)XamlReader.Load(DataTemplateStream);
+            Assert.That(Control.ContentTemplate.HasContent, Is.True);
             Control.PopupWidth = 100;
             Assert.That(Control.PopupWidth, Is.EqualTo(100));
             Control.PopupHeight = 200;
@@ -57,8 +64,8 @@ public partial class TestPopupExpander
             }));
             _ = StopTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
 
-            //Control.IsExpanded = true;
-            //Thread.Sleep(100);
+            Control.IsExpanded = true;
+            Thread.Sleep(100);
             Control.IsExpanded = false;
             Thread.Sleep(100);
         }, createApp: true);
