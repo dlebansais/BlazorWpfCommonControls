@@ -75,9 +75,9 @@ public static class TestTools
         return Success;
     }
 
-    public static Popup LoadControl(Control control)
+    public static Popup LoadControl(UIElement control)
     {
-        Contract.RequireNotNull(control, out Control Control);
+        Contract.RequireNotNull(control, out UIElement Control);
 
         Popup NewPopup = new();
         NewPopup.Child = Control;
