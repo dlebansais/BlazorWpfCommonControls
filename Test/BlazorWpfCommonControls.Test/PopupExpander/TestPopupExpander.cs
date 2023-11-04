@@ -25,6 +25,8 @@ public partial class TestPopupExpander
             _ = WindowGrid.Children.Add(OtherControl2);
 
             PopupExpander Control = new();
+            Control.Header = "Empty";
+
             var Popup = TestTools.LoadControl(Control);
             Control.Header = "Header";
             Assert.That(Control.Header, Is.EqualTo("Header"));

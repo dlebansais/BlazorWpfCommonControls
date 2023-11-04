@@ -384,7 +384,7 @@ public partial class PopupExpander : UserControl, INotifyPropertyChanged
     /// <param name="propertyName">The property name.</param>
     internal void NotifyPropertyChanged(string propertyName)
     {
-        PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
     #endregion
 }
