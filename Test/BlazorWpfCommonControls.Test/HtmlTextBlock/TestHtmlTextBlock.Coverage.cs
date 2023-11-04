@@ -24,4 +24,19 @@ public partial class TestHtmlTextBlock
 
         Assert.IsTrue(Success);
     }
+
+    [Test]
+    public void TestMiscText()
+    {
+        bool Success = TestTools.StaThreadWrapper(() =>
+        {
+            HtmlTextBlock Control = new();
+            Control.HtmlFormattedText = "<";
+
+            var Popup = TestTools.LoadControl(Control);
+            TestTools.UnloadControl(Popup);
+        });
+
+        Assert.IsTrue(Success);
+    }
 }
