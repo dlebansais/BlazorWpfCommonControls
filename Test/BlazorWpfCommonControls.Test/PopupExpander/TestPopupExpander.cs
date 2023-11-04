@@ -95,6 +95,15 @@ public partial class TestPopupExpander
             }));
             _ = HideTimer.Change(TimeSpan.FromSeconds(3), Timeout.InfiniteTimeSpan);
 
+            Timer ShowTimer = new(new TimerCallback((object parameter) =>
+            {
+                _ = Control.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    app.MainWindow.Show();
+                }), DispatcherPriority.ContextIdle);
+            }));
+            _ = ShowTimer.Change(TimeSpan.FromSeconds(4), Timeout.InfiniteTimeSpan);
+
             Timer StopTimer = new(new TimerCallback((object parameter) =>
             {
                 _ = Control.Dispatcher.BeginInvoke(new Action(() =>
@@ -103,7 +112,7 @@ public partial class TestPopupExpander
                     app.Shutdown();
                 }), DispatcherPriority.ContextIdle);
             }));
-            _ = StopTimer.Change(TimeSpan.FromSeconds(4), Timeout.InfiniteTimeSpan);
+            _ = StopTimer.Change(TimeSpan.FromSeconds(5), Timeout.InfiniteTimeSpan);
         });
 
         Assert.IsTrue(Success);

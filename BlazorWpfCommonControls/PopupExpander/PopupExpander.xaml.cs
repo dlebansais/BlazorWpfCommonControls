@@ -10,7 +10,7 @@ using System.Windows.Controls.Primitives;
 /// <summary>
 /// Interaction logic for PopupExpander.xaml.
 /// </summary>
-public partial class PopupExpander : UserControl
+public partial class PopupExpander : UserControl, INotifyPropertyChanged
 {
     #region Init
     /// <summary>

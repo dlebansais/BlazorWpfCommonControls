@@ -1,7 +1,5 @@
 ﻿namespace CustomControls.BlazorWpfCommon;
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 

@@ -91,31 +91,4 @@ public static class TestTools
         Popup.IsOpen = false;
         Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.ContextIdle);
     }
-
-#pragma warning disable CA5392 // Use DefaultDllImportSearchPaths attribute for P/Invokes
-
-    [DllImport("user32.dll")]
-    private static extern bool ShowWindowAsync(HandleRef hWnd, int nCmdShow);
-    [DllImport("user32.dll")]
-    private static extern bool SetForegroundWindow(IntPtr WindowHandle);
-
-    public const int SW_HIDE = 0;
-    public const int SW_RESTORE = 9;
-
-    public static void UnsetAppForeground()
-    {
-        Process process = Process.GetCurrentProcess();
-        IntPtr hWnd = process.MainWindowHandle;
-        _ = ShowWindowAsync(new HandleRef(null, hWnd), SW_HIDE);
-
-        _ = SetForegroundWindow(IntPtr.Zero);
-    }
-
-    public static void SetAppForeground()
-    {
-        Process process = Process.GetCurrentProcess();// System.Diagnostics.Process.GetProcessesByName("POWERPNT").FirstOrDefault();
-        IntPtr hWnd = process.MainWindowHandle;
-        _ = ShowWindowAsync(new HandleRef(null, hWnd), SW_RESTORE);
-        _ = SetForegroundWindow(process.MainWindowHandle);
-    }
 }
