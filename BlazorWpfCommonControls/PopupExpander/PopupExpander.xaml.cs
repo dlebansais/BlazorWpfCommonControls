@@ -36,6 +36,15 @@ public partial class PopupExpander : UserControl, INotifyPropertyChanged
         _ = ControlList.Remove(Control);
     }
 
+    /// <summary>
+    /// Set all <see cref="IsExpanded"/> values to <see langword="false"/>.
+    /// </summary>
+    public static void UnexpandAll()
+    {
+        foreach (PopupExpander Control in ControlList)
+            Control.IsExpanded = false;
+    }
+
     private static readonly List<PopupExpander> ControlList = new();
     #endregion
 

@@ -110,6 +110,7 @@ public partial class TestPopupExpander
             {
                 _ = Control.Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    PopupExpander.UnexpandAll();
                     TestTools.UnloadControl(Popup);
                     app.Shutdown();
                 }), DispatcherPriority.ContextIdle);
