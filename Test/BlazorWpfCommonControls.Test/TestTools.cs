@@ -56,6 +56,8 @@ public static class TestTools
                 NewWindow.Show();
 
                 action(NewApp);
+                bool succ = NewWindow.Activate();
+
                 Dispatcher.Run();
             }
             catch (Exception exception)

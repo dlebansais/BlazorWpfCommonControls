@@ -20,9 +20,6 @@ public partial class PopupExpander : UserControl, INotifyPropertyChanged
     {
         InitializeComponent();
 
-        if (Application.Current is Application CurrentApp)
-            CurrentApp.Deactivated += OnDeactivated;
-
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
@@ -356,14 +353,6 @@ public partial class PopupExpander : UserControl, INotifyPropertyChanged
     #endregion
 
     #region Events
-#nullable disable annotations
-    private void OnDeactivated(object sender, EventArgs args)
-#nullable restore annotations
-    {
-        if (IsExpanded)
-            IsExpanded = false;
-    }
-
 #pragma warning disable IDE0051 // Remove unused private members: called from xaml
     private CustomPopupPlacement[] OnCustomPopupPlacementCallback(Size popupSize, Size targetSize, Point offset)
 #pragma warning restore IDE0051 // Remove unused private members
@@ -395,7 +384,7 @@ public partial class PopupExpander : UserControl, INotifyPropertyChanged
     /// <param name="propertyName">The property name.</param>
     internal void NotifyPropertyChanged(string propertyName)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
     #endregion
 }
