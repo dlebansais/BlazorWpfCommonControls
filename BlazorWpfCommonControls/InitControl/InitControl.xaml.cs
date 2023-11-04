@@ -28,8 +28,7 @@ public partial class InitControl : UserControl
         if (ThisIndex <= 0)
             return;
 
-        if (AsPanel.Children[ThisIndex - 1] is not FrameworkElement Sibling)
-            return;
+        UIElement Sibling = AsPanel.Children[ThisIndex - 1];
 
         switch (Sibling)
         {

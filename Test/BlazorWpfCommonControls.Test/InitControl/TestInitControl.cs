@@ -239,4 +239,30 @@ public partial class TestInitControl
 
         Assert.IsTrue(Success);
     }
+
+    [Test]
+    public void TestUnsupportedSibling()
+    {
+        bool Success = TestTools.StaThreadWrapper(() =>
+        {
+            InitControl Control = new();
+            Border NewBorder = new();
+            Grid NewGrid = new();
+            _ = NewGrid.Children.Add(NewBorder);
+            _ = NewGrid.Children.Add(Control);
+
+            var Popup = TestTools.LoadControl(NewGrid);
+
+            Timer StopTimer = new(new TimerCallback((object parameter) =>
+            {
+                _ = Control.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    TestTools.UnloadControl(Popup);
+                }), DispatcherPriority.ContextIdle);
+            }));
+            _ = StopTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
+        });
+
+        Assert.IsTrue(Success);
+    }
 }
