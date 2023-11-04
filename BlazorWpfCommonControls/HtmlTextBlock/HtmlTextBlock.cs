@@ -198,23 +198,22 @@ public class HtmlTextBlock : TextBlock
             hasNewLine = NonSpaceIndex >= 0 && RunText[NonSpaceIndex] == '\n';
         }
 
-        if (RunText.Length > 0)
-        {
-            Run NewElement = new(RunText);
+        Debug.Assert(RunText.Length > 0);
 
-            NewElement.FontSize = format.Title.FontSize;
+        Run NewElement = new(RunText);
 
-            if (format.IsBold)
-                NewElement.FontWeight = FontWeights.Bold;
+        NewElement.FontSize = format.Title.FontSize;
 
-            if (format.IsItalic)
-                NewElement.FontStyle = FontStyles.Italic;
+        if (format.IsBold)
+            NewElement.FontWeight = FontWeights.Bold;
 
-            if (format.IsUnderline)
-                inlines.Add(new Underline(NewElement));
-            else
-                inlines.Add(NewElement);
-        }
+        if (format.IsItalic)
+            NewElement.FontStyle = FontStyles.Italic;
+
+        if (format.IsUnderline)
+            inlines.Add(new Underline(NewElement));
+        else
+            inlines.Add(NewElement);
     }
 
     private static Run ParseSpan(string text, ref int index)
@@ -269,7 +268,13 @@ public class HtmlTextBlock : TextBlock
             index = EndIndex + 7;
         }
 
-        string Content = text.Substring(StartIndex + 1, EndIndex - StartIndex - 1);
+        string Content;
+
+        if (StartIndex + 1 <= text.Length)
+            Content = text.Substring(StartIndex + 1, EndIndex - StartIndex - 1);
+        else
+            Content = text;
+
         Result.Text = Content;
 
         return Result;

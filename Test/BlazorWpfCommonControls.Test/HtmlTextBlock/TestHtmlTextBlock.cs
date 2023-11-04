@@ -25,6 +25,7 @@ public partial class TestHtmlTextBlock
 <span style=""color:#FFFFFFFF"">Our creator</span>
 <span style=""color:?FFFFFFFF"">Our creator</span>
 <span style=""color:#FFFFFF"">Our creator</span>
+<span style=""other:unknown"">Our creator</span>
 <span style="""">Our creator</span>
 , the great wizard Dalvos. Thus began Revision 1.
 The answer is no.

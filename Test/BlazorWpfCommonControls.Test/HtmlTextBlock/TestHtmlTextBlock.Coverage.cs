@@ -31,7 +31,11 @@ public partial class TestHtmlTextBlock
         bool Success = TestTools.StaThreadWrapper(() =>
         {
             HtmlTextBlock Control = new();
+            Control.HtmlFormattedText = "<span";
             Control.HtmlFormattedText = "<";
+            Control.HtmlFormattedText = "<span></span>";
+            Control.HtmlFormattedText = "<h1></h1>";
+            Control.HtmlFormattedText = "<span>with text</span>";
 
             var Popup = TestTools.LoadControl(Control);
             TestTools.UnloadControl(Popup);
