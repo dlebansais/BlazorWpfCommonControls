@@ -289,6 +289,7 @@ public partial class EyeCirclePanel : UserControl
                 Grid.SetColumn(InternalSelection, Column);
                 Grid.SetRow(InternalSelection, Row);
                 InternalSelection.Visibility = Visibility.Visible;
+                _ = Focus();
             }
         }
     }
