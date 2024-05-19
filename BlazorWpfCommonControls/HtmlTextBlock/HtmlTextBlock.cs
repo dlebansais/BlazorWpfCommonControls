@@ -106,25 +106,26 @@ public class HtmlTextBlock : TextBlock
             searchIndex = Index + 1;
         }
         else if (Index + 4 <= text.Length && text.Substring(Index, 4) == "<hr>")
-        {
             ParseSectionSeparator(text, Index, ref result, ref startIndex, ref searchIndex, endTag, format, ref hasNewLine);
-        }
         else if (Index + 5 <= text.Length && text.Substring(Index, 5) == "<span")
-        {
-            if (startIndex < Index)
-                AddRun(result.Inlines, text, startIndex, Index, format, ref hasNewLine);
-
-            Run Nested = ParseSpan(text, ref Index);
-            Nested.FontSize = format.Title.FontSize;
-            result.Inlines.Add(Nested);
-
-            startIndex = Index;
-            searchIndex = startIndex;
-        }
+            ParseSectionNewSpan(text, Index, ref result, ref startIndex, ref searchIndex, format, ref hasNewLine);
         else
             ParseSpecialText(text, Index, ref result, ref startIndex, ref searchIndex, format, ref hasNewLine);
 
         return false;
+    }
+
+    private static void ParseSectionNewSpan(string text, int index, ref Span result, ref int startIndex, ref int searchIndex, Format format, ref bool hasNewLine)
+    {
+        if (startIndex < index)
+            AddRun(result.Inlines, text, startIndex, index, format, ref hasNewLine);
+
+        Run Nested = ParseSpan(text, ref index);
+        Nested.FontSize = format.Title.FontSize;
+        result.Inlines.Add(Nested);
+
+        startIndex = index;
+        searchIndex = startIndex;
     }
 
     private static void ParseSectionSeparator(string text, int index, ref Span result, ref int startIndex, ref int searchIndex, string endTag, Format format, ref bool hasNewLine)
