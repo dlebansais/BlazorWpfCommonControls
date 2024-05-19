@@ -77,67 +77,84 @@ public class HtmlTextBlock : TextBlock
         int searchIndex = startIndex;
 
         while (searchIndex < text.Length)
-        {
-            int Index = text.IndexOf('<', searchIndex);
-            if (Index < 0 || (Index >= 0 && Index + 1 < text.Length && text[Index + 1] == ' '))
-            {
-                AddRun(Result.Inlines, text, startIndex, text.Length, format, ref hasNewLine);
-
-                startIndex = text.Length;
-                searchIndex = startIndex;
-            }
-            else if (endTag.Length > 0 && Index + endTag.Length <= text.Length && text.Substring(Index, endTag.Length) == endTag)
-            {
-                if (startIndex < Index)
-                    AddRun(Result.Inlines, text, startIndex, Index, format, ref hasNewLine);
-
-                startIndex = Index + endTag.Length;
+            if (ParseTextPart(text, ref Result, ref startIndex, ref searchIndex, endTag, format, ref hasNewLine))
                 return Result;
-            }
-            else if (Index + 4 <= text.Length && text.Substring(Index, 4) == "<br>")
-            {
-                searchIndex = Index + 1;
-            }
-            else if (Index + 4 <= text.Length && text.Substring(Index, 4) == "<hr>")
-            {
-                if (startIndex < Index)
-                    AddRun(Result.Inlines, text, startIndex, Index, format, ref hasNewLine);
-
-                Run Separator = new("~~~~");
-                Separator.FontSize = format.Title.FontSize;
-                Result.Inlines.Add(Separator);
-                Result.Inlines.Add(new LineBreak());
-
-                startIndex = Index + 4;
-                searchIndex = startIndex;
-            }
-            else if (Index + 5 <= text.Length && text.Substring(Index, 5) == "<span")
-            {
-                if (startIndex < Index)
-                    AddRun(Result.Inlines, text, startIndex, Index, format, ref hasNewLine);
-
-                Run Nested = ParseSpan(text, ref Index);
-                Nested.FontSize = format.Title.FontSize;
-                Result.Inlines.Add(Nested);
-
-                startIndex = Index;
-                searchIndex = startIndex;
-            }
-            else if (!ParseSpecialText(text, Result, Index, ref startIndex, ref searchIndex, "<h1>", "</h1>", format, new Format() { Title = Level1, IsBold = true, IsItalic = format.IsItalic, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine) &&
-                     !ParseSpecialText(text, Result, Index, ref startIndex, ref searchIndex, "<h2>", "</h2>", format, new Format() { Title = Level2, IsBold = format.IsBold, IsItalic = format.IsItalic, IsUnderline = true, Indentation = format.Indentation }, ref hasNewLine) &&
-                     !ParseSpecialText(text, Result, Index, ref startIndex, ref searchIndex, "<indent=15>", "</indent>", format, new Format() { Title = Normal, IsBold = format.IsBold, IsItalic = format.IsItalic, IsUnderline = format.IsUnderline, Indentation = "               " }, ref hasNewLine) &&
-                     !ParseSpecialText(text, Result, Index, ref startIndex, ref searchIndex, "<b>", "</b>", format, new Format() { Title = Normal, IsBold = true, IsItalic = format.IsItalic, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine) &&
-                     !ParseSpecialText(text, Result, Index, ref startIndex, ref searchIndex, "<i>", "</i>", format, new Format() { Title = Normal, IsBold = format.IsBold, IsItalic = true, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine) &&
-                     !ParseSpecialText(text, Result, Index, ref startIndex, ref searchIndex, "<em>", "</em>", format, new Format() { Title = Normal, IsBold = format.IsBold, IsItalic = true, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine))
-            {
-                string TagText = text.Length >= searchIndex + 10 ? text.Substring(searchIndex, 10) : text.Substring(searchIndex, text.Length - searchIndex);
-                Debug.WriteLine($"WARNING Unexpected tag: <{TagText}");
-
-                searchIndex = Index + 1;
-            }
-        }
 
         return Result;
+    }
+
+    private static bool ParseTextPart(string text, ref Span result, ref int startIndex, ref int searchIndex, string endTag, Format format, ref bool hasNewLine)
+    {
+        int Index = text.IndexOf('<', searchIndex);
+        if (Index < 0 || (Index >= 0 && Index + 1 < text.Length && text[Index + 1] == ' '))
+        {
+            AddRun(result.Inlines, text, startIndex, text.Length, format, ref hasNewLine);
+
+            startIndex = text.Length;
+            searchIndex = startIndex;
+        }
+        else if (endTag.Length > 0 && Index + endTag.Length <= text.Length && text.Substring(Index, endTag.Length) == endTag)
+        {
+            if (startIndex < Index)
+                AddRun(result.Inlines, text, startIndex, Index, format, ref hasNewLine);
+
+            startIndex = Index + endTag.Length;
+            return true;
+        }
+        else if (Index + 4 <= text.Length && text.Substring(Index, 4) == "<br>")
+        {
+            searchIndex = Index + 1;
+        }
+        else if (Index + 4 <= text.Length && text.Substring(Index, 4) == "<hr>")
+        {
+            ParseSectionSeparator(text, Index, ref result, ref startIndex, ref searchIndex, endTag, format, ref hasNewLine);
+        }
+        else if (Index + 5 <= text.Length && text.Substring(Index, 5) == "<span")
+        {
+            if (startIndex < Index)
+                AddRun(result.Inlines, text, startIndex, Index, format, ref hasNewLine);
+
+            Run Nested = ParseSpan(text, ref Index);
+            Nested.FontSize = format.Title.FontSize;
+            result.Inlines.Add(Nested);
+
+            startIndex = Index;
+            searchIndex = startIndex;
+        }
+        else
+            ParseSpecialText(text, Index, ref result, ref startIndex, ref searchIndex, format, ref hasNewLine);
+
+        return false;
+    }
+
+    private static void ParseSectionSeparator(string text, int index, ref Span result, ref int startIndex, ref int searchIndex, string endTag, Format format, ref bool hasNewLine)
+    {
+        if (startIndex < index)
+            AddRun(result.Inlines, text, startIndex, index, format, ref hasNewLine);
+
+        Run Separator = new("~~~~");
+        Separator.FontSize = format.Title.FontSize;
+        result.Inlines.Add(Separator);
+        result.Inlines.Add(new LineBreak());
+
+        startIndex = index + 4;
+        searchIndex = startIndex;
+    }
+
+    private static void ParseSpecialText(string text, int index, ref Span result, ref int startIndex, ref int searchIndex, Format format, ref bool hasNewLine)
+    {
+        if (!ParseSpecialText(text, result, index, ref startIndex, ref searchIndex, "<h1>", "</h1>", format, new Format() { Title = Level1, IsBold = true, IsItalic = format.IsItalic, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine) &&
+            !ParseSpecialText(text, result, index, ref startIndex, ref searchIndex, "<h2>", "</h2>", format, new Format() { Title = Level2, IsBold = format.IsBold, IsItalic = format.IsItalic, IsUnderline = true, Indentation = format.Indentation }, ref hasNewLine) &&
+            !ParseSpecialText(text, result, index, ref startIndex, ref searchIndex, "<indent=15>", "</indent>", format, new Format() { Title = Normal, IsBold = format.IsBold, IsItalic = format.IsItalic, IsUnderline = format.IsUnderline, Indentation = "               " }, ref hasNewLine) &&
+            !ParseSpecialText(text, result, index, ref startIndex, ref searchIndex, "<b>", "</b>", format, new Format() { Title = Normal, IsBold = true, IsItalic = format.IsItalic, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine) &&
+            !ParseSpecialText(text, result, index, ref startIndex, ref searchIndex, "<i>", "</i>", format, new Format() { Title = Normal, IsBold = format.IsBold, IsItalic = true, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine) &&
+            !ParseSpecialText(text, result, index, ref startIndex, ref searchIndex, "<em>", "</em>", format, new Format() { Title = Normal, IsBold = format.IsBold, IsItalic = true, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine))
+        {
+            string TagText = text.Length >= searchIndex + 10 ? text.Substring(searchIndex, 10) : text.Substring(searchIndex, text.Length - searchIndex);
+            Debug.WriteLine($"WARNING Unexpected tag: <{TagText}");
+
+            searchIndex = index + 1;
+        }
     }
 
     private static bool ParseSpecialText(string text, Span span, int index, ref int startIndex, ref int searchIndex, string startTag, string endTag, Format oldFormat, Format newFormat, ref bool hasNewLine)
@@ -226,44 +243,8 @@ public class HtmlTextBlock : TextBlock
         while (StartIndex + 1 < text.Length && text[StartIndex] != '>')
             StartIndex++;
 
-        string SpanClass = text.Substring(index, StartIndex - index).Trim();
-        if (SpanClass.Length > 8 && SpanClass.StartsWith("style=\"", StringComparison.Ordinal) &&
-#if NETFRAMEWORK
-            SpanClass.EndsWith("\"", StringComparison.Ordinal))
-#else
-            SpanClass.EndsWith('"'))
-#endif
-        {
-            string SpanStyle = SpanClass.Substring(7, SpanClass.Length - 8);
-            if (SpanStyle.StartsWith("color:", StringComparison.Ordinal))
-            {
-                string SpanColor = SpanStyle.Substring(6).Trim();
-
-                switch (SpanColor)
-                {
-                    case "red":
-                        Result.Foreground = Brushes.Red;
-                        break;
-                    case "lightgreen":
-                        Result.Foreground = Brushes.LightGreen;
-                        break;
-                    case "white":
-                        Result.Foreground = Brushes.White;
-                        break;
-                    default:
-                        if (SpanColor.Length == 9 && SpanColor[0] == '#')
-                        {
-                            _ = byte.TryParse(SpanColor.Substring(1, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out byte R);
-                            _ = byte.TryParse(SpanColor.Substring(3, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out byte G);
-                            _ = byte.TryParse(SpanColor.Substring(5, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out byte B);
-                            _ = byte.TryParse(SpanColor.Substring(7, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out byte A);
-                            Result.Foreground = new SolidColorBrush(Color.FromArgb(A, R, G, B));
-                        }
-
-                        break;
-                }
-            }
-        }
+        if (TryParseSpanForeground(text, index, StartIndex, out Brush Foreground))
+            Result.Foreground = Foreground;
 
         int EndIndex = StartIndex + 1;
         index = EndIndex;
@@ -284,5 +265,57 @@ public class HtmlTextBlock : TextBlock
 
         return Result;
     }
-#endregion
+
+    private static bool TryParseSpanForeground(string text, int index, int startIndex, out Brush foreground)
+    {
+        string SpanClass = text.Substring(index, startIndex - index).Trim();
+        if (SpanClass.Length > 8 && SpanClass.StartsWith("style=\"", StringComparison.Ordinal) &&
+#if NETFRAMEWORK
+            SpanClass.EndsWith("\"", StringComparison.Ordinal))
+#else
+            SpanClass.EndsWith('"'))
+#endif
+        {
+            string SpanStyle = SpanClass.Substring(7, SpanClass.Length - 8);
+            if (SpanStyle.StartsWith("color:", StringComparison.Ordinal))
+            {
+                string SpanColor = SpanStyle.Substring(6).Trim();
+
+                switch (SpanColor)
+                {
+                    case "red":
+                        foreground = Brushes.Red;
+                        return true;
+                    case "lightgreen":
+                        foreground = Brushes.LightGreen;
+                        return true;
+                    case "white":
+                        foreground = Brushes.White;
+                        return true;
+                    default:
+                        return TryParseSpanColor(SpanColor, out foreground);
+                }
+            }
+        }
+
+        foreground = Brushes.Transparent;
+        return false;
+    }
+
+    private static bool TryParseSpanColor(string spanColor, out Brush foreground)
+    {
+        if (spanColor.Length == 9 && spanColor[0] == '#')
+        {
+            _ = byte.TryParse(spanColor.Substring(1, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out byte R);
+            _ = byte.TryParse(spanColor.Substring(3, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out byte G);
+            _ = byte.TryParse(spanColor.Substring(5, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out byte B);
+            _ = byte.TryParse(spanColor.Substring(7, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out byte A);
+            foreground = new SolidColorBrush(Color.FromArgb(A, R, G, B));
+            return true;
+        }
+
+        foreground = Brushes.Transparent;
+        return false;
+    }
+    #endregion
 }
