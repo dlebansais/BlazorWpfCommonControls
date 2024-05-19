@@ -60,7 +60,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -119,7 +119,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     private void OnSelectionChangedNoClear(object sender, CircleSelectionChangedEventArgs args)
@@ -158,7 +158,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -181,7 +181,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -204,7 +204,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -227,7 +227,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -250,7 +250,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -271,7 +271,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -299,7 +299,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -327,7 +327,7 @@ public partial class TestEyeCirclePanel
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -354,6 +354,6 @@ public partial class TestEyeCirclePanel
             _ = StopTimer.Change(TimeSpan.FromSeconds(2), Timeout.InfiniteTimeSpan);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 }

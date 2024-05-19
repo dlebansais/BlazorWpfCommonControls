@@ -1,9 +1,6 @@
 namespace BlazorWpfCommonControls.Test;
 
 using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using Contracts;
 
-public static class TestTools
+public static partial class TestTools
 {
     public static bool StaThreadWrapper(Action action)
     {
@@ -75,22 +72,20 @@ public static class TestTools
         return Success;
     }
 
-    public static Popup LoadControl(UIElement control)
+    [RequireNotNull(nameof(control))]
+    private static Popup LoadControlVerified(UIElement control)
     {
-        Contract.RequireNotNull(control, out UIElement Control);
-
         Popup NewPopup = new();
-        NewPopup.Child = Control;
+        NewPopup.Child = control;
         NewPopup.IsOpen = true;
 
         return NewPopup;
     }
 
-    public static void UnloadControl(Popup popup)
+    [RequireNotNull(nameof(popup))]
+    private static void UnloadControlVerified(Popup popup)
     {
-        Contract.RequireNotNull(popup, out Popup Popup);
-
-        Popup.IsOpen = false;
+        popup.IsOpen = false;
         Dispatcher.CurrentDispatcher.BeginInvokeShutdown(DispatcherPriority.ContextIdle);
     }
 }

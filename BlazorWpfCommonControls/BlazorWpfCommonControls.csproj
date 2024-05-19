@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net481;net7.0-windows7.0</TargetFrameworks>
-        <LangVersion>11.0</LangVersion>
+        <TargetFrameworks>net481;net8.0-windows7.0</TargetFrameworks>
+        <LangVersion>12</LangVersion>
         <Nullable>enable</Nullable>
         <Platforms>x64</Platforms>
         <UseWPF>true</UseWPF>
 
         <RootNamespace>CustomControls.BlazorWpfCommon</RootNamespace>
-        <Version>0.0.9</Version>
-        <AssemblyVersion>0.0.9.1</AssemblyVersion>
-        <FileVersion>0.0.9.1</FileVersion>
+        <Version>0.0.10</Version>
+        <AssemblyVersion>0.0.10.2</AssemblyVersion>
+        <FileVersion>0.0.10.2</FileVersion>
         <Authors>David Le Bansais</Authors>
         <Company />
         <Product />
         <Description>Custom controls that can be reused either in a WPF or Blazor project</Description>
-        <Copyright>Copyright © 2023 David Le Bansais</Copyright>
+        <Copyright>Copyright © 2024 David Le Bansais</Copyright>
         <RepositoryUrl>https://github.com/dlebansais/BlazorWpfCommonControls</RepositoryUrl>
 
         <NeutralLanguage>en-US</NeutralLanguage>
@@ -41,7 +41,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.507">
+        <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.556">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -53,11 +53,11 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="PolySharp" Version="1.13.2">
+        <PackageReference Include="PolySharp" Version="1.14.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
     </ItemGroup>

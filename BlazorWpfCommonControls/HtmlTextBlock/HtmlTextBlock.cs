@@ -227,7 +227,12 @@ public class HtmlTextBlock : TextBlock
             StartIndex++;
 
         string SpanClass = text.Substring(index, StartIndex - index).Trim();
-        if (SpanClass.Length > 8 && SpanClass.StartsWith("style=\"", StringComparison.Ordinal) && SpanClass.EndsWith("\"", StringComparison.Ordinal))
+        if (SpanClass.Length > 8 && SpanClass.StartsWith("style=\"", StringComparison.Ordinal) &&
+#if NETFRAMEWORK
+            SpanClass.EndsWith("\"", StringComparison.Ordinal))
+#else
+            SpanClass.EndsWith('"'))
+#endif
         {
             string SpanStyle = SpanClass.Substring(7, SpanClass.Length - 8);
             if (SpanStyle.StartsWith("color:", StringComparison.Ordinal))

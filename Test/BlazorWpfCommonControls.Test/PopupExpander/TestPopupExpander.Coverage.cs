@@ -18,7 +18,7 @@ public partial class TestPopupExpander
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -33,6 +33,6 @@ public partial class TestPopupExpander
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 }

@@ -15,6 +15,6 @@ public partial class TestBusyIndicator
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 }

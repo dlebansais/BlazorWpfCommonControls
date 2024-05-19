@@ -118,6 +118,6 @@ public partial class TestPopupExpander
             _ = StopTimer.Change(TimeSpan.FromSeconds(5), Timeout.InfiniteTimeSpan);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 }

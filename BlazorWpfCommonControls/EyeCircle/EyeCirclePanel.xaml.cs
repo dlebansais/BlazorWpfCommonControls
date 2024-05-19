@@ -433,7 +433,7 @@ public partial class EyeCirclePanel : UserControl
         Grid.SetRow(control, y);
     }
 
-    private static Brush CreateAnimatedBrush(Color color)
+    private static SolidColorBrush CreateAnimatedBrush(Color color)
     {
         ColorAnimation Animation = new()
         {

@@ -24,6 +24,6 @@ public partial class TestEyeCircleControl
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 }

@@ -36,6 +36,6 @@ The answer is no.
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 }

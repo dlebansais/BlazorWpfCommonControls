@@ -22,7 +22,7 @@ public partial class TestHtmlTextBlock
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -41,6 +41,6 @@ public partial class TestHtmlTextBlock
             TestTools.UnloadControl(Popup);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 }

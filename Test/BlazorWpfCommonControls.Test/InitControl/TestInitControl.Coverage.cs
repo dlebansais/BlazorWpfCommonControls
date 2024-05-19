@@ -28,7 +28,7 @@ public partial class TestInitControl
             _ = StopTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 
     [Test]
@@ -53,6 +53,6 @@ public partial class TestInitControl
             _ = StopTimer.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
         });
 
-        Assert.IsTrue(Success);
+        Assert.That(Success, Is.True);
     }
 }
