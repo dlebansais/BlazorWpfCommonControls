@@ -17,8 +17,8 @@ init:
   - git config --global core.autocrlf input
 
 environment:
-  package_token:
-    secure: oeB0vPa3ehegduJ/WnxLssnK6wiIc8MVx0lVYeiXKT6pIz9ZDQ4ioQ55g6GYz9dW
+  NuGetPackageSourceCredentials_github:     # value: Username=dlebansais;Password={github package token}
+    secure: Fd8cbeFRzxym3D4FpbJo2m943iBsBRgrAGOEFhMHDO90WMUkfdJECxPcHpWmkxregb17bhgiIhvFJB9ac4dx3cr3ZpsxpqTzIc61BaUiv90=
   opencover_version: 4.7.1221
   codecov_version: 0.2.4
   csharp-format_version: 0.0.9
@@ -28,9 +28,9 @@ matrix:
   fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
 
 before_build:
-  - ps: (Get-Content nuget.config).replace('Insert token here', $env:package_token) | Set-Content nuget.config
   - nuget restore %APPVEYOR_PROJECT_NAME%.sln
   - nuget install GitCommitId -DependencyVersion Highest -OutputDirectory packages
+  - dotnet restore
 
 configuration:
   - Debug
@@ -69,7 +69,7 @@ before_test:
     printf ".\packages\OpenCover.%opencover_version%\Tools\OpenCover.Console.exe -register:user -returntargetcode -target:\x25\x31 -mergeoutput -output:""Coverage-%APPVEYOR_PROJECT_NAME%"".xml\n" > opencover.bat
 
 test_script:
-  - opencover.bat runtests1.bat
+  - if '%APPVEYOR_REPO_BRANCH%' == 'master' opencover.bat runtests1.bat
 
 after_test:
   - ps: Get-Content Coverage-*.xml -Head 3
