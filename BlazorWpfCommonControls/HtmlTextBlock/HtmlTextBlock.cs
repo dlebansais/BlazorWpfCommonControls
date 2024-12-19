@@ -151,7 +151,7 @@ public class HtmlTextBlock : TextBlock
             !ParseSpecialText(text, result, index, ref startIndex, ref searchIndex, "<i>", "</i>", format, new Format() { Title = Normal, IsBold = format.IsBold, IsItalic = true, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine) &&
             !ParseSpecialText(text, result, index, ref startIndex, ref searchIndex, "<em>", "</em>", format, new Format() { Title = Normal, IsBold = format.IsBold, IsItalic = true, IsUnderline = format.IsUnderline, Indentation = format.Indentation }, ref hasNewLine))
         {
-            string TagText = text.Length >= searchIndex + 10 ? text.Substring(searchIndex, 10) : text.Substring(searchIndex, text.Length - searchIndex);
+            string TagText = text.Length >= searchIndex + 10 ? text.Substring(searchIndex, 10) : text.Substring(searchIndex);
             Debug.WriteLine($"WARNING Unexpected tag: <{TagText}");
 
             searchIndex = index + 1;
